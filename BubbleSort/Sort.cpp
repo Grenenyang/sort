@@ -8,7 +8,7 @@ class BubbleSort
 {
 	
 public:
-	BubbleSort(vector<int>&arr) //��ʼ������
+	BubbleSort(vector<int>&arr) //初始化数组
 	{
 		srand((int)time(0));
 		for (int i=0;i<1000;i++)
@@ -16,7 +16,7 @@ public:
 			arr.push_back(rand());
 		}
 	}
-	void my_printf(vector<int>arr) //��������
+	void my_printf(vector<int>arr) //遍历数组
 	{
 		for (int i=0;i<arr.size();i++)
 		{
@@ -24,7 +24,7 @@ public:
 		}
 		cout<<endl;
 	}
-	void swap(vector<int>&arr, int i,int j) //������������������λ��
+	void swap(vector<int>&arr, int i,int j) //交换数组中两个数据位置
 	{
 		int temp;
 		temp=arr[i];
@@ -33,16 +33,24 @@ public:
 	}
 	void bubblesort(vector<int>&arr)
 	{
+		int lastExchangeIndex = 0;
+		int sortBorder = arr.size() - 1;//sortBorder就是无序数列的边界。每一轮排序过程中，sortBorder之后的元素就完全不需要比较了，肯定是有序的
 		for(int j=arr.size()-1; j>0; j--)
 		{
-			//1.�����������ҵ����ֵ��
-			for (int i=0; i<j ; i++)
+			bool isSort = true;
+			//1.两两交换，找到最大值，
+			for (int i=0; i<sortBorder ; i++)
 			{
 				if (arr[i]>arr[i+1])
 				{
 					swap(arr,i,i+1);
+					isSort = false;//利用布尔变量isSorted作为标记。如果在本轮排序中，元素有交换，则说明数列无序；如果没有元素交换，说明数列已然有序，直接跳出大循环。
+					lastExchangeIndex = j;
 				}
 			}
+			sortBorder = lastExchangeIndex;
+			if(isSort)
+				break;
 		}
 	}
 private:
@@ -67,9 +75,10 @@ int main()
 	int ret=judge(arr,arr1);
 	if (ret)
 	{
-		cout<<"����㷨����ȷ��"<<endl;
+		cout<<"你的算法是正确的"<<endl;
 	}
 	else 
-		cout<<"����㷨������"<<endl;
+		cout<<"你的算法有问题"<<endl;
 	return 0; 
+}
 }
